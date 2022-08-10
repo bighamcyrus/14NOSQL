@@ -5,12 +5,13 @@ const userSchema = new Schema(
   {
     name: String,
     age: Number,
-    thoughts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Thoughts',
-      },
-    ],
+    // connect thoughts through ID 
+    // thoughts: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Thoughts',
+    //   },
+    // ],
   },
   );
 
