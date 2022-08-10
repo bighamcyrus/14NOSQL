@@ -1,13 +1,13 @@
-const { Thoughts, User } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
   getThoughts(req, res) {
-    thoughts.find()
+    Thought.find()
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  getSingleThoughts(req, res) {
-    thoughts.findOne({ _id: req.params.thoughtId })
+  getSingleThought(req, res) {
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with that ID' })
@@ -19,8 +19,8 @@ module.exports = {
 // This creates a new application document from the models application.js application schema
 // Creates a application in the USER document
 
-  createThoughts(req, res) {
-    thoughts.create(req.body)
+  createThought(req, res) {
+    Thought.create(req.body)
       .then((thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
@@ -41,16 +41,16 @@ module.exports = {
       });
   },
   // TODO: Add comments to the functionality of the updateApplication method
-  updateThoughts(req, res) {
-    Thoughts.findOneAndUpdate(
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((thought) =>
-        !thought
+      .then((thoughts) =>
+        !thoughts
           ? res.status(404).json({ message: 'No thought with this id!' })
-          : res.json(thought)
+          : res.json(thoughts)
       )
       .catch((err) => {
         console.log(err);
@@ -60,8 +60,8 @@ module.exports = {
   // TODO: Add comments to the functionality of the deleteApplication method
 
 //  it will find the application by ID and delete the  application with that ID. 
-  deleteThoughts(req, res) {
-    Thoughts.findOneAndRemove({ _id: req.params.thoughtId })
+  deleteThought(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with this id!' })
@@ -81,31 +81,4 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // TODO: Add comments to the functionality of the addTag method
-  addTag(req, res) {
-    Thoughts.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $addToSet: { tags: req.body } },
-      { runValidators: true, new: true }
-    )
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: 'No Thoughts with this id!' })
-          : res.json(thought)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-  // TODO: Add comments to the functionality of the addTag method
-  removeTag(req, res) {
-    Thoughts.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $pull: { tags: { tagId: req.params.tagId } } },
-      { runValidators: true, new: true }
-    )
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: 'No Thoughts with this id!' })
-          : res.json(thought)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-};
+ };
