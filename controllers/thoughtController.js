@@ -1,13 +1,13 @@
-const { Thought, User } = require('../models');
+const { Thoughts, User } = require('../Modules');
 
 module.exports = {
   getThoughts(req, res) {
-    Thought.find()
+    Thoughts.find()
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.thoughtId })
+    Thoughts.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with that ID' })
@@ -21,7 +21,7 @@ module.exports = {
 
   createThought(req, res) {
     Thought.create(req.body)
-      .then((thought) => {
+      .then((thoughts) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
           { $addToSet: { thoughts: thoughtId } },
@@ -60,7 +60,7 @@ module.exports = {
   // TODO: Add comments to the functionality of the deleteApplication method
 
 //  it will find the application by ID and delete the  application with that ID. 
-  deleteThought(req, res) {
+  deleteThoughts(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
